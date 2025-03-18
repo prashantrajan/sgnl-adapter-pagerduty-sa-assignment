@@ -19,3 +19,8 @@
 
 # Go workspace file
 go.work
+
+
+# Local development stuff
+mise.toml
+authTokens.json
