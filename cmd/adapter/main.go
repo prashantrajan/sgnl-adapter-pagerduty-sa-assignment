@@ -21,9 +21,9 @@ import (
 	"net"
 	"os"
 
+	"github.com/prashantrajan/sgnl-adapter-pagerduty-sa-assignment/pkg/adapter"
 	api_adapter_v1 "github.com/sgnl-ai/adapter-framework/api/adapter/v1"
 	"github.com/sgnl-ai/adapter-framework/server"
-	"github.com/sgnl-ai/adapter-template/pkg/adapter"
 	"google.golang.org/grpc"
 )
 
