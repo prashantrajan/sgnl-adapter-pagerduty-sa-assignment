@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 	"time"
 
 	framework "github.com/sgnl-ai/adapter-framework"
@@ -52,7 +53,10 @@ type DatasourceResponse struct {
 	// SCAFFOLDING #13-OK  - pkg/adapter/datasource.go: Add or remove fields in the response as necessary. This is used to unmarshal the response from the SoR.
 
 	// SCAFFOLDING #14-OK - pkg/adapter/datasource.go: Update `objects` with field name in the SoR response that contains the list of objects.
-	Teams []map[string]any `json:"teams,omitempty"`
+	Teams  []map[string]any `json:"teams,omitempty"`
+	Limit  int              `json:"limit,omitempty"`
+	Offset int              `json:"offset,omitempty"`
+	More   bool             `json:"more,omitempty"`
 }
 
 var (
@@ -82,7 +86,7 @@ func (d *Datasource) GetPage(ctx context.Context, request *Request) (*Response, 
 	// SCAFFOLDING #16-RECHECK - pkg/adapter/datasource.go: Create the SoR API URL
 	// Populate the request with the appropriate path, headers, and query parameters to query the
 	// datasource.
-	url := fmt.Sprintf("%s/%s", request.BaseURL, request.EntityExternalID)
+	url := fmt.Sprintf("%s/%s?limit=%d&offset=%s", request.BaseURL, request.EntityExternalID, request.PageSize, request.Cursor)
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -167,6 +171,9 @@ func ParseResponse(body []byte) (objects []map[string]any, nextCursor string, er
 	// SCAFFOLDING #19-RECHECK - pkg/adapter/datasource.go: Populate next page information (called cursor in SGNL adapters).
 	// Populate nextCursor with the cursor returned from the datasource, if present.
 	nextCursor = ""
+	if data.More {
+		nextCursor = strconv.Itoa(data.Limit + data.Offset)
+	}
 
 	switch {
 	case data.Teams != nil:
