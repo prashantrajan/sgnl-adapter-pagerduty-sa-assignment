@@ -101,7 +101,7 @@ func (a *Adapter) RequestPageFromDatasource(
 		// SCAFFOLDING #23-OK - pkg/adapter/adapter.go: Disable JSONPathAttributeNames.
 		// Disable JSONPathAttributeNames if your datasource does not support
 		// JSONPath attribute names. This should be enabled for most datasources.
-		web.WithJSONPathAttributeNames(),
+		// web.WithJSONPathAttributeNames(),
 
 		// SCAFFOLDING #24-OK - pkg/adapter/adapter.go: List datetime formats supported by your SoR.
 		// Provide a list of datetime formats supported by your datasource if
