@@ -25,7 +25,7 @@ import (
 const (
 	// MaxPageSize is the maximum page size allowed in a GetPage request.
 	//
-	// SCAFFOLDING #7 - pkg/adapter/validation.go: Update this limit to match the limit of the SoR.
+	// SCAFFOLDING #7-OK - pkg/adapter/validation.go: Update this limit to match the limit of the SoR.
 	MaxPageSize = 100
 )
 
@@ -38,10 +38,10 @@ func (a *Adapter) ValidateGetPageRequest(ctx context.Context, request *framework
 		}
 	}
 
-	// SCAFFOLDING #8 - pkg/adapter/validation.go: Modify this validation to match the authn mechanism(s) supported by the SoR.
-	if request.Auth == nil || request.Auth.Basic == nil {
+	// SCAFFOLDING #8-RECHECK - pkg/adapter/validation.go: Modify this validation to match the authn mechanism(s) supported by the SoR.
+	if request.Auth == nil || request.Auth.HTTPAuthorization == "" {
 		return &framework.Error{
-			Message: "Provided datasource auth is missing required basic credentials.",
+			Message: "PagerDuty auth is missing required token.",
 			Code:    api_adapter_v1.ErrorCode_ERROR_CODE_INVALID_DATASOURCE_CONFIG,
 		}
 	}
@@ -74,7 +74,7 @@ func (a *Adapter) ValidateGetPageRequest(ctx context.Context, request *framework
 
 	// Validate that no child entities are requested.
 	//
-	// SCAFFOLDING #9 - pkg/adapter/validation.go: Modify this validation if the entity contains child entities.
+	// SCAFFOLDING #9-OK - pkg/adapter/validation.go: Modify this validation if the entity contains child entities.
 	if len(request.Entity.ChildEntities) > 0 {
 		return &framework.Error{
 			Message: "Requested entity does not support child entities.",
@@ -82,13 +82,13 @@ func (a *Adapter) ValidateGetPageRequest(ctx context.Context, request *framework
 		}
 	}
 
-	// SCAFFOLDING #10 - pkg/adapter/validation.go: Check for Ordered responses.
+	// SCAFFOLDING #10-RECHECK - pkg/adapter/validation.go: Check for Ordered responses.
 	// If the datasource doesn't support sorting results by unique ID
 	// attribute for the requested entity, check instead that Ordered is set to
 	// false.
-	if !request.Ordered {
+	if request.Ordered {
 		return &framework.Error{
-			Message: "Ordered must be set to true.",
+			Message: "Ordered must be set to false.",
 			Code:    api_adapter_v1.ErrorCode_ERROR_CODE_INVALID_ENTITY_CONFIG,
 		}
 	}

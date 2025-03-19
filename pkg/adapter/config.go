@@ -22,22 +22,23 @@ import (
 // Config is the optional configuration passed in each GetPage calls to the
 // adapter.
 type Config struct {
-	// SCAFFOLDING #3 - pkg/adapter/config.go - pass Adapter config fields.
+	// SCAFFOLDING #3-OK - pkg/adapter/config.go - pass Adapter config fields.
 	// Every field MUST have a `json` tag.
 
 	// Example config field.
-	APIVersion string `json:"apiVersion,omitempty"`
+	//APIVersion   string `json:"apiVersion,omitempty"`
+
 }
 
 // ValidateConfig validates that a Config received in a GetPage call is valid.
 func (c *Config) Validate(_ context.Context) error {
-	// SCAFFOLDING #4 - pkg/adapter/config.go: Validate fields passed in Adapter config.
+	// SCAFFOLDING #4-OK - pkg/adapter/config.go: Validate fields passed in Adapter config.
 	// Update the checks below to validate the fields in Config.
 	switch {
 	case c == nil:
 		return errors.New("request contains no config")
-	case c.APIVersion == "":
-		return errors.New("apiVersion is not set")
+	// case c.APIVersion == "":
+	// 	return errors.New("apiVersion is not set")
 	default:
 		return nil
 	}

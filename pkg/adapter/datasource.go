@@ -16,7 +16,6 @@ package adapter
 
 import (
 	"context"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -28,15 +27,14 @@ import (
 )
 
 const (
-	// SCAFFOLDING #11 - pkg/adapter/datasource.go: Update the set of valid entity types this adapter supports.
-	Users  string = "users"
-	Groups string = "groups"
+	// SCAFFOLDING #11-OK - pkg/adapter/datasource.go: Update the set of valid entity types this adapter supports.
+	Teams string = "teams"
 )
 
 // Entity contains entity specific information, such as the entity's unique ID attribute and the
 // endpoint to query that entity.
 type Entity struct {
-	// SCAFFOLDING #12 - pkg/adapter/datasource.go: Update Entity fields used to store entity specific information
+	// SCAFFOLDING #12-OK - pkg/adapter/datasource.go: Update Entity fields used to store entity specific information
 	// Add or remove fields as needed. This should be used to store entity specific information
 	// such as the entity's unique ID attribute name and the endpoint to query that entity.
 
@@ -51,23 +49,20 @@ type Datasource struct {
 }
 
 type DatasourceResponse struct {
-	// SCAFFOLDING #13  - pkg/adapter/datasource.go: Add or remove fields in the response as necessary. This is used to unmarshal the response from the SoR.
+	// SCAFFOLDING #13-OK  - pkg/adapter/datasource.go: Add or remove fields in the response as necessary. This is used to unmarshal the response from the SoR.
 
-	// SCAFFOLDING #14 - pkg/adapter/datasource.go: Update `objects` with field name in the SoR response that contains the list of objects.
-	Objects []map[string]any `json:"objects,omitempty"`
+	// SCAFFOLDING #14-OK - pkg/adapter/datasource.go: Update `objects` with field name in the SoR response that contains the list of objects.
+	Teams []map[string]any `json:"teams,omitempty"`
 }
 
 var (
-	// SCAFFOLDING #15 - pkg/adapter/datasource.go: Update the set of valid entity types supported by this adapter. Used for validation.
+	// SCAFFOLDING #15-OK - pkg/adapter/datasource.go: Update the set of valid entity types supported by this adapter. Used for validation.
 
 	// ValidEntityExternalIDs is a map of valid external IDs of entities that can be queried.
 	// The map value is the Entity struct which contains the unique ID attribute.
 	ValidEntityExternalIDs = map[string]Entity{
-		Users: {
-			uniqueIDAttrExternalID: "user_id",
-		},
-		Groups: {
-			uniqueIDAttrExternalID: "group_id",
+		Teams: {
+			uniqueIDAttrExternalID: "id",
 		},
 	}
 )
@@ -84,10 +79,10 @@ func NewClient(timeout int) Client {
 func (d *Datasource) GetPage(ctx context.Context, request *Request) (*Response, *framework.Error) {
 	var req *http.Request
 
-	// SCAFFOLDING #16 - pkg/adapter/datasource.go: Create the SoR API URL
+	// SCAFFOLDING #16-RECHECK - pkg/adapter/datasource.go: Create the SoR API URL
 	// Populate the request with the appropriate path, headers, and query parameters to query the
 	// datasource.
-	url := fmt.Sprintf("%s/api/%s", request.BaseURL, request.EntityExternalID)
+	url := fmt.Sprintf("%s/%s", request.BaseURL, request.EntityExternalID)
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -103,14 +98,14 @@ func (d *Datasource) GetPage(ctx context.Context, request *Request) (*Response, 
 
 	req = req.WithContext(apiCtx)
 
-	// SCAFFOLDING #17 - pkg/adapter/datasource.go: Add any headers required to communicate with the SoR APIs.
+	// SCAFFOLDING #17-RECHECK - pkg/adapter/datasource.go: Add any headers required to communicate with the SoR APIs.
 	// Add headers to the request, if any.
 	// req.Header.Add("Accept", "application/json")
 
 	if request.Token == "" {
 		// Basic Authentication
-		auth := request.Username + ":" + request.Password
-		req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(auth)))
+		// auth := request.Username + ":" + request.Password
+		// req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(auth)))
 	} else {
 		// Auth Token for Bearer or OAuth2.0 Client Credentials flow
 		req.Header.Add("Authorization", request.Token)
@@ -142,7 +137,7 @@ func (d *Datasource) GetPage(ctx context.Context, request *Request) (*Response, 
 			Code:    api_adapter_v1.ErrorCode_ERROR_CODE_DATASOURCE_FAILED,
 		}
 	}
-	// SCAFFOLDING #17-1 - pkg/adapter/datasource.go: To add support for multiple entities that require different parsing functions
+	// SCAFFOLDING #17-1-RECHECK - pkg/adapter/datasource.go: To add support for multiple entities that require different parsing functions
 	// Add code to call different ParseResponse functions for each entity response.
 	objects, nextCursor, parseErr := ParseResponse(body)
 	if parseErr != nil {
@@ -166,12 +161,18 @@ func ParseResponse(body []byte) (objects []map[string]any, nextCursor string, er
 		}
 	}
 
-	// SCAFFOLDING #18 - pkg/adapter/datasource.go: Add response validations.
+	// SCAFFOLDING #18-RECHECK - pkg/adapter/datasource.go: Add response validations.
 	// Add necessary validations to check if the response from the datasource is what is expected.
 
-	// SCAFFOLDING #19 - pkg/adapter/datasource.go: Populate next page information (called cursor in SGNL adapters).
+	// SCAFFOLDING #19-RECHECK - pkg/adapter/datasource.go: Populate next page information (called cursor in SGNL adapters).
 	// Populate nextCursor with the cursor returned from the datasource, if present.
 	nextCursor = ""
 
-	return data.Objects, nextCursor, nil
+	switch {
+	case data.Teams != nil:
+		return data.Teams, nextCursor, nil
+	default:
+		return nil, nextCursor, nil
+	}
+
 }
