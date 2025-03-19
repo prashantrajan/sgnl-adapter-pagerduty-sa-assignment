@@ -58,7 +58,7 @@ func (a *Adapter) RequestPageFromDatasource(
 	ctx context.Context, request *framework.Request[Config],
 ) framework.Response {
 
-	// SCAFFOLDING #22-RECHECK - pkg/adapter/adapter.go: Modify implementation to query your SoR.
+	// SCAFFOLDING #22-OK - pkg/adapter/adapter.go: Modify implementation to query your SoR.
 	// If necessary, update this entire method to query your SoR. All of the code in this function
 	// can be updated to match your SoR requirements.
 
@@ -67,10 +67,6 @@ func (a *Adapter) RequestPageFromDatasource(
 	}
 	req := &Request{
 		BaseURL: request.Address,
-
-		// Basic Auth
-		// Username: request.Auth.Basic.Username,
-		// Password: request.Auth.Basic.Password,
 
 		// API Key or OAuth2 Token
 		Token: request.Auth.HTTPAuthorization,

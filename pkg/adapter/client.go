@@ -30,7 +30,7 @@ type Client interface {
 	GetPage(ctx context.Context, request *Request) (*Response, *framework.Error)
 }
 
-// SCAFFOLDING #5-RECHECK - pkg/adapter/client.go: Add/Remove/Update any fields to model the request for the SoR API.
+// SCAFFOLDING #5-OK - pkg/adapter/client.go: Add/Remove/Update any fields to model the request for the SoR API.
 
 // Request is a request to the datasource.
 type Request struct {

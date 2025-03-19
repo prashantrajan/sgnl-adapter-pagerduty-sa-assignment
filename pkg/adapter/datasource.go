@@ -83,7 +83,7 @@ func NewClient(timeout int) Client {
 func (d *Datasource) GetPage(ctx context.Context, request *Request) (*Response, *framework.Error) {
 	var req *http.Request
 
-	// SCAFFOLDING #16-RECHECK - pkg/adapter/datasource.go: Create the SoR API URL
+	// SCAFFOLDING #16-OK - pkg/adapter/datasource.go: Create the SoR API URL
 	// Populate the request with the appropriate path, headers, and query parameters to query the
 	// datasource.
 	url := fmt.Sprintf("%s/%s?limit=%d&offset=%s", request.BaseURL, request.EntityExternalID, request.PageSize, request.Cursor)
@@ -102,15 +102,11 @@ func (d *Datasource) GetPage(ctx context.Context, request *Request) (*Response, 
 
 	req = req.WithContext(apiCtx)
 
-	// SCAFFOLDING #17-RECHECK - pkg/adapter/datasource.go: Add any headers required to communicate with the SoR APIs.
+	// SCAFFOLDING #17-OK - pkg/adapter/datasource.go: Add any headers required to communicate with the SoR APIs.
 	// Add headers to the request, if any.
 	// req.Header.Add("Accept", "application/json")
 
-	if request.Token == "" {
-		// Basic Authentication
-		// auth := request.Username + ":" + request.Password
-		// req.Header.Add("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(auth)))
-	} else {
+	if request.Token != "" {
 		// Auth Token for Bearer or OAuth2.0 Client Credentials flow
 		req.Header.Add("Authorization", request.Token)
 	}
@@ -141,7 +137,7 @@ func (d *Datasource) GetPage(ctx context.Context, request *Request) (*Response, 
 			Code:    api_adapter_v1.ErrorCode_ERROR_CODE_DATASOURCE_FAILED,
 		}
 	}
-	// SCAFFOLDING #17-1-RECHECK - pkg/adapter/datasource.go: To add support for multiple entities that require different parsing functions
+	// SCAFFOLDING #17-1-OK - pkg/adapter/datasource.go: To add support for multiple entities that require different parsing functions
 	// Add code to call different ParseResponse functions for each entity response.
 	objects, nextCursor, parseErr := ParseResponse(body)
 	if parseErr != nil {
@@ -165,10 +161,10 @@ func ParseResponse(body []byte) (objects []map[string]any, nextCursor string, er
 		}
 	}
 
-	// SCAFFOLDING #18-RECHECK - pkg/adapter/datasource.go: Add response validations.
+	// SCAFFOLDING #18-OK - pkg/adapter/datasource.go: Add response validations.
 	// Add necessary validations to check if the response from the datasource is what is expected.
 
-	// SCAFFOLDING #19-RECHECK - pkg/adapter/datasource.go: Populate next page information (called cursor in SGNL adapters).
+	// SCAFFOLDING #19-OK - pkg/adapter/datasource.go: Populate next page information (called cursor in SGNL adapters).
 	// Populate nextCursor with the cursor returned from the datasource, if present.
 	nextCursor = ""
 	if data.More {

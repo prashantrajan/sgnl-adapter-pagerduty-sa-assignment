@@ -38,7 +38,7 @@ func (a *Adapter) ValidateGetPageRequest(ctx context.Context, request *framework
 		}
 	}
 
-	// SCAFFOLDING #8-RECHECK - pkg/adapter/validation.go: Modify this validation to match the authn mechanism(s) supported by the SoR.
+	// SCAFFOLDING #8-OK - pkg/adapter/validation.go: Modify this validation to match the authn mechanism(s) supported by the SoR.
 	if request.Auth == nil || request.Auth.HTTPAuthorization == "" {
 		return &framework.Error{
 			Message: "PagerDuty auth is missing required token.",
@@ -82,7 +82,7 @@ func (a *Adapter) ValidateGetPageRequest(ctx context.Context, request *framework
 		}
 	}
 
-	// SCAFFOLDING #10-RECHECK - pkg/adapter/validation.go: Check for Ordered responses.
+	// SCAFFOLDING #10-OK - pkg/adapter/validation.go: Check for Ordered responses.
 	// If the datasource doesn't support sorting results by unique ID
 	// attribute for the requested entity, check instead that Ordered is set to
 	// false.
