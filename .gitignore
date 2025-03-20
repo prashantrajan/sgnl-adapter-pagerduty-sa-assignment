@@ -22,7 +22,8 @@ go.work
 
 
 # Local development stuff
+.deploy/
+.scratch/
+bin/
 mise.toml
 authTokens.json
-bin/
-scratch/
