@@ -69,13 +69,25 @@ docker run -p 8080:8080 --rm -it -e AUTH_TOKENS_PATH=/local/path/to/authTokens.j
 
 ### Using Postman
 
-Fork this public Postman workspace that contains collections for localhost and a live test server: {FIXME: POSTMAN PUBLIC WORKSPACE URL}
+#### Remote Server
+
+See the [Postman SGNL PagerDuty Adapter - Remote Server](https://www.postman.com/prashantnadarajan-ll/sgnl-pagerduty-adapter-sa-assignment/grpc-request/67dbdaa9ee008d517568a0ec) gRPC collection to view and test this code that was deployed to a live remote server directly from your browser. Note that you will need to have the [Postman Agent](https://www.postman.com/downloads/postman-agent/) installed to invoke requests from the browser.
+
+Select a Test Case (TC) message to invoke and view a live response.
+
+![Create a new gRPC request](/docs/assets/postman_new_grpc_request.png)
+
+#### Local Server
+
+Fork the [Postman SGNL PagerDuty Adapter - Local Server](https://www.postman.com/prashantnadarajan-ll/sgnl-pagerduty-adapter-sa-assignment/grpc-request/67d930b097bf0a921b82e1e5) gRPC collection to view and test this code against a locally built (see build instructions above) copy of the adapter server with the Postman desktop app.
+
+Alternatively, you can also manually configure your Postman desktop app as follows:
 
 1. Define the [`GetPage` Protobuf](https://github.com/SGNL-ai/adapter-framework/blob/f2cafb0d963b54c350350967906ce59776d720a1/api/adapter/v1/adapter.proto) schema.
 
 ![Define the `GetPage` Protobuf definition](/docs/assets/postman_proto_definition.png)
 
-2. Add the Pager Duty API token as a Workspace variable.
+2. Add the PagerDuty Test API token as a Workspace variable.
 
 ![Workspace Variables](/docs/assets/postman_workspace_variables.png)
 
@@ -91,9 +103,6 @@ Fork this public Postman workspace that contains collections for localhost and a
 
 ![Collection Before Invoke Script](/docs/assets/postman_collection_before_invoke_script.png)
 
-6. Select a Test Case (TC) message to invoke and view a live response.
-
-![Create a new gRPC request](/docs/assets/postman_new_grpc_request.png)
 
 ### Unit Tests
 
