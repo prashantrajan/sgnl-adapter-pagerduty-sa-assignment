@@ -32,7 +32,7 @@ const (
 	// SCAFFOLDING #7-OK - pkg/adapter/validation.go: Update this limit to match the limit of the SoR.
 	MaxPageSize = 100
 
-	//PagerDuty's classic pagination REST API permits retrieving a maximum of 10,000 records via pagination
+	//PagerDuty's classic pagination REST API permits retrieving a maximum of 10,000 records
 	MaxResultSize = 10000
 )
 
