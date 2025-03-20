@@ -38,7 +38,7 @@ export AUTH_TOKENS_PATH=/path/to/authTokens.json
 ### Building a Binary
 
 ```sh
-go build -o ./bin/sgnl-adapter-pagerduty ./cmd/adapter`
+go build -o ./bin/sgnl-adapter-pagerduty ./cmd/adapter
 ```
 
 ### Building a Docker Image
@@ -79,9 +79,9 @@ Select a Test Case (TC) message to invoke and view a live response.
 
 #### Local Server
 
-Fork the [Postman SGNL PagerDuty Adapter - Local Server](https://www.postman.com/prashantnadarajan-ll/sgnl-pagerduty-adapter-sa-assignment/grpc-request/67d930b097bf0a921b82e1e5) gRPC collection to view and test this code against a locally built (see build instructions above) copy of the adapter server with the Postman desktop app.
+Fork the [Postman SGNL PagerDuty Adapter - Local Server](https://www.postman.com/prashantnadarajan-ll/sgnl-pagerduty-adapter-sa-assignment/grpc-request/67d930b097bf0a921b82e1e5) gRPC collection to view and test this code against a locally built (see build instructions above) copy of the adapter server with the Postman App.
 
-Alternatively, you can also manually configure your Postman desktop app as follows:
+Alternatively, you can also manually configure your Postman App as follows:
 
 1. Define the [`GetPage` Protobuf](https://github.com/SGNL-ai/adapter-framework/blob/f2cafb0d963b54c350350967906ce59776d720a1/api/adapter/v1/adapter.proto) schema.
 
@@ -113,7 +113,7 @@ Coming soon...
 
 ### SGNL Adapter Template
 
-The code in this repo was adapter from the [SGNL Adapter Template](https://github.com/SGNL-ai/adapter-template).
+The code in this repo was adapted from the [SGNL Adapter Template](https://github.com/SGNL-ai/adapter-template).
 
 ### PagerDuty API
 
