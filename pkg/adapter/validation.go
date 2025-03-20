@@ -24,6 +24,9 @@ import (
 )
 
 const (
+	//PagerDuty API Hostname
+	APIHost = "https://api.pagerduty.com"
+
 	// MaxPageSize is the maximum page size allowed in a GetPage request.
 	//
 	// SCAFFOLDING #7-OK - pkg/adapter/validation.go: Update this limit to match the limit of the SoR.
@@ -38,6 +41,14 @@ func (a *Adapter) ValidateGetPageRequest(ctx context.Context, request *framework
 	if err := request.Config.Validate(ctx); err != nil {
 		return &framework.Error{
 			Message: fmt.Sprintf("Provided config is invalid: %v.", err.Error()),
+			Code:    api_adapter_v1.ErrorCode_ERROR_CODE_INVALID_DATASOURCE_CONFIG,
+		}
+	}
+
+	// Validate the requested SoR address
+	if request.Address != APIHost {
+		return &framework.Error{
+			Message: "PagerDuty API URL is invalid.",
 			Code:    api_adapter_v1.ErrorCode_ERROR_CODE_INVALID_DATASOURCE_CONFIG,
 		}
 	}
