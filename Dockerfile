@@ -18,13 +18,13 @@ ARG BASE_IMAGE=gcr.io/distroless/static
 FROM ${GOLANG_IMAGE} as build
 
 RUN apt-get update && apt-get install -y \
-    unzip=6.0*
+  unzip=6.0*
 
 ARG PROTOBUF_VERSION=23.3
 RUN curl -fSsL "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip" > /tmp/protoc.zip \
-    && (cd /usr/local && unzip /tmp/protoc.zip 'bin/protoc' 'include/*')  \
-    && chmod +x /usr/local/bin/protoc \
-    && rm -f /tmp/protoc.zip
+  && (cd /usr/local && unzip /tmp/protoc.zip 'bin/protoc' 'include/*')  \
+  && chmod +x /usr/local/bin/protoc \
+  && rm -f /tmp/protoc.zip
 
 ARG PROTOC_GEN_GO_VERSION=1.28.1
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v${PROTOC_GEN_GO_VERSION}
@@ -50,5 +50,7 @@ WORKDIR /
 COPY --from=build /go/bin/gops /gops
 COPY --from=build /build/adapter /adapter
 COPY --from=build /build/$AUTH_TOKENS_PATH /$AUTH_TOKENS_PATH
+
+EXPOSE 8080
 
 ENTRYPOINT [ "/adapter" ]
