@@ -17,6 +17,7 @@ package adapter
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	framework "github.com/sgnl-ai/adapter-framework"
 	api_adapter_v1 "github.com/sgnl-ai/adapter-framework/api/adapter/v1"
@@ -27,6 +28,9 @@ const (
 	//
 	// SCAFFOLDING #7-OK - pkg/adapter/validation.go: Update this limit to match the limit of the SoR.
 	MaxPageSize = 100
+
+	//PagerDuty's classic pagination REST API permits retrieving a maximum of 10,000 records via pagination
+	MaxResultSize = 10000
 )
 
 // ValidateGetPageRequest validates the fields of the GetPage Request.
@@ -97,6 +101,23 @@ func (a *Adapter) ValidateGetPageRequest(ctx context.Context, request *framework
 		return &framework.Error{
 			Message: fmt.Sprintf("Provided page size (%d) exceeds maximum (%d).", request.PageSize, MaxPageSize),
 			Code:    api_adapter_v1.ErrorCode_ERROR_CODE_INVALID_PAGE_REQUEST_CONFIG,
+		}
+	}
+
+	if request.Cursor != "" {
+		cursorInt, err := strconv.ParseInt(request.Cursor, 10, 64)
+		if err != nil {
+			return &framework.Error{
+				Message: fmt.Sprintf("Invalid cursor value: %v.", err.Error()),
+				Code:    api_adapter_v1.ErrorCode_ERROR_CODE_INVALID_PAGE_REQUEST_CONFIG,
+			}
+		}
+
+		if (request.PageSize + cursorInt) > MaxResultSize {
+			return &framework.Error{
+				Message: fmt.Sprintf("PagerDuty does not allow requesting more than %d records.", MaxResultSize),
+				Code:    api_adapter_v1.ErrorCode_ERROR_CODE_INVALID_PAGE_REQUEST_CONFIG,
+			}
 		}
 	}
 
