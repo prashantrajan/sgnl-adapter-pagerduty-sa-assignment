@@ -37,8 +37,6 @@ export AUTH_TOKENS_PATH=/path/to/authTokens.json
 
 ### Building a Binary
 
-To build the adapter as a binary, use the following commands:
-
 ```sh
 go build -o ./bin/sgnl-adapter-pagerduty ./cmd/adapter`
 ```
@@ -85,15 +83,16 @@ Fork this public Postman workspace that contains collections for localhost and a
 
 ![Collection Metadata ](/docs/assets/postman_collection_metadata.png)
 
-4. Select the GetPage Protobuf definition in the Service Definition.
+4. Select the `GetPage` Protobuf definition in the Service Definition.
 
 ![Collection Service Definition](/docs/assets/postman_collection_service_definition.png)
 
-5. Add a Before Invoke Script to handle Base64 encoding.
+5. Add a Before Invoke Script to handle Base64 encoding the message content.
 
 ![Collection Before Invoke Script](/docs/assets/postman_collection_before_invoke_script.png)
 
-6. Select one of the Test Case (TC) messages to Invoke to see a live response.
+6. Select a Test Case (TC) message to invoke and view a live response.
+
 ![Create a new gRPC request](/docs/assets/postman_new_grpc_request.png)
 
 ### Unit Tests
@@ -109,7 +108,6 @@ The code in this repo was adapter from the [SGNL Adapter Template](https://githu
 
 ### PagerDuty API
 
-API references:
 - [Overview](https://developer.pagerduty.com/docs/rest-api-overview)
 - [Authentication](https://developer.pagerduty.com/docs/authentication)
 - [Pagination](https://developer.pagerduty.com/docs/pagination)
