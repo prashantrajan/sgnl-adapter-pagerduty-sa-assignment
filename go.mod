@@ -1,4 +1,4 @@
-module github.com/sgnl-ai/adapter-template
+module github.com/prashantrajan/sgnl-adapter-pagerduty-sa-assignment
 
 go 1.21
 

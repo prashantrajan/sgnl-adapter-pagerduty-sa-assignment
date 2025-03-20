@@ -28,7 +28,7 @@ import (
 // Adapter implements the framework.Adapter interface to query pages of objects
 // from datasources.
 type Adapter struct {
-	// SCAFFOLDING #20 - pkg/adapter/adapter.go: Add or remove fields to configure the adapter.
+	// SCAFFOLDING #20-OK - pkg/adapter/adapter.go: Add or remove fields to configure the adapter.
 
 	// Client provides access to the datasource.
 	Client Client
@@ -36,7 +36,7 @@ type Adapter struct {
 
 // NewAdapter instantiates a new Adapter.
 //
-// SCAFFOLDING #21 - pkg/adapter/adapter.go: Add or remove parameters to match field updates above.
+// SCAFFOLDING #21-OK - pkg/adapter/adapter.go: Add or remove parameters to match field updates above.
 func NewAdapter(client Client) framework.Adapter[Config] {
 	return &Adapter{
 		Client: client,
@@ -58,7 +58,7 @@ func (a *Adapter) RequestPageFromDatasource(
 	ctx context.Context, request *framework.Request[Config],
 ) framework.Response {
 
-	// SCAFFOLDING #22 - pkg/adapter/adapter.go: Modify implementation to query your SoR.
+	// SCAFFOLDING #22-OK - pkg/adapter/adapter.go: Modify implementation to query your SoR.
 	// If necessary, update this entire method to query your SoR. All of the code in this function
 	// can be updated to match your SoR requirements.
 
@@ -68,13 +68,9 @@ func (a *Adapter) RequestPageFromDatasource(
 	req := &Request{
 		BaseURL: request.Address,
 
-		// Basic Auth
-		Username: request.Auth.Basic.Username,
-		Password: request.Auth.Basic.Password,
-
 		// API Key or OAuth2 Token
-		Token:            request.Auth.HTTPAuthorization,
-		
+		Token: request.Auth.HTTPAuthorization,
+
 		PageSize:         request.PageSize,
 		EntityExternalID: request.Entity.ExternalId,
 		Cursor:           request.Cursor,
@@ -98,12 +94,12 @@ func (a *Adapter) RequestPageFromDatasource(
 		&request.Entity,
 		resp.Objects,
 
-		// SCAFFOLDING #23 - pkg/adapter/adapter.go: Disable JSONPathAttributeNames.
+		// SCAFFOLDING #23-OK - pkg/adapter/adapter.go: Disable JSONPathAttributeNames.
 		// Disable JSONPathAttributeNames if your datasource does not support
 		// JSONPath attribute names. This should be enabled for most datasources.
-		web.WithJSONPathAttributeNames(),
+		// web.WithJSONPathAttributeNames(),
 
-		// SCAFFOLDING #24 - pkg/adapter/adapter.go: List datetime formats supported by your SoR.
+		// SCAFFOLDING #24-OK - pkg/adapter/adapter.go: List datetime formats supported by your SoR.
 		// Provide a list of datetime formats supported by your datasource if
 		// they are known. This will optimize the parsing of datetime values.
 		// If this is not known, you can omit this option which will try
@@ -117,7 +113,7 @@ func (a *Adapter) RequestPageFromDatasource(
 			}...,
 		),
 
-		// SCAFFOLDING #25 - pkg/adapter/adapter.go: Uncomment to set the default timezone in case the SoR datetime attribute does not have timezone specified.
+		// SCAFFOLDING #25-OK - pkg/adapter/adapter.go: Uncomment to set the default timezone in case the SoR datetime attribute does not have timezone specified.
 		// This can be provided to be used as a default value when parsing
 		// datetime values lacking timezone info. This defaults to UTC.
 		// web.WithLocalTimeZoneOffset(-7),

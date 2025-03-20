@@ -23,7 +23,7 @@ import (
 
 	api_adapter_v1 "github.com/sgnl-ai/adapter-framework/api/adapter/v1"
 	"github.com/sgnl-ai/adapter-framework/server"
-	"github.com/sgnl-ai/adapter-template/pkg/adapter"
+	"github.com/prashantrajan/sgnl-adapter-pagerduty-sa-assignment/pkg/adapter"
 	"google.golang.org/grpc"
 )
 
@@ -45,14 +45,14 @@ func main() {
 		logger.Fatalf("Failed to open server port: %v", err)
 	}
 
-	// SCAFFOLDING #1 - cmd/adapter/main.go: Pass options to configure TLS, connection parameters.
+	// SCAFFOLDING #1-OK - cmd/adapter/main.go: Pass options to configure TLS, connection parameters.
 	s := grpc.NewServer()
 
 	stop := make(chan struct{})
 
 	adapterServer := server.New(stop)
 
-	// SCAFFOLDING #2 - cmd/adapter/main.go: Update Adapter type.
+	// SCAFFOLDING #2-OK - cmd/adapter/main.go: Update Adapter type.
 	// The Adapter type below must be unique across all registered Adapters and match the Adapter
 	// type configured on the Adapter object via the SGNL Config API.
 	//
